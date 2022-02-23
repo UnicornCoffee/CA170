@@ -1,0 +1,33 @@
+#We will get a script called "cweb" working. This script goes through your web pages, changing one string to another string. 
+Instead of doing an "ls" of the file $file:
+
+    Print out the contents of the file with "cat".
+    Send that via a pipe to "sed" (like above).
+    Note that "sed" should change the old string to the new string, whatever they are. It should not just be hardwired to change Scotland to Finland.
+    Redirect the output to a temporary file.
+    So the line is:
+
+     cat ... | sed ... > tmpfile
+
+    You fill in the dots.
+    Use "cp" to copy the temporary file back to the original file. 
+
+1 #!/bin/bash
+2 
+3 # Read in the arguments:
+4 OLDSTRING=$1
+5 NEWSTRING=$2
+6 
+7 # the following gets rid of the first two arguments
+8 shift
+9 shift
+10 
+11 # from now on, "all arguments" means "all arguments from 3rd one on"
+12 # go through all arguments one by one:
+13 
+14 for file in $*
+15 do
+16  ls -l $file 
+17  cat $file | sed -e "s|$OLDSTRING|$NEWSTRING|g" > tmpfile
+18  cp tmpfile $file
+19 done
